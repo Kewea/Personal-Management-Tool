@@ -22,7 +22,7 @@ public class Project{
 
     @Column(name = "project_identifier", unique = true, updatable = false)
     @NotBlank(message = "Project Identifier should not be blank")
-    @Size(min = 4, max = 5, message = "Please use 4 to 5 characters")
+    @Size(min = 4, max = 6, message = "Please use 4 to 6 characters")
     private String projectIdentifier;
 
     @NotBlank(message = "Project description must not be blank")
