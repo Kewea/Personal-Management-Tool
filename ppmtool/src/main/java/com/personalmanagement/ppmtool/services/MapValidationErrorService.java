@@ -11,17 +11,15 @@ import java.util.Map;
 
 @Service
 public class MapValidationErrorService {
-    public ResponseEntity<?> mapValidationError(BindingResult bindingResult) {
+    public Map<String, String> mapValidationError(BindingResult bindingResult) {
         Map<String, String> errorMap = new HashMap<>();
 
         if (bindingResult.hasErrors()) {
             for (FieldError fieldError : bindingResult.getFieldErrors()) {
                 errorMap.put(fieldError.getField(), fieldError.getDefaultMessage());
             }
-
-            return new ResponseEntity<>(errorMap, HttpStatus.BAD_REQUEST);
         }
 
-        return null;
+        return errorMap;
     }
 }

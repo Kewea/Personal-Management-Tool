@@ -15,7 +15,7 @@ import java.util.Date;
 public class Project{
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
+    private Long id;
 
     @NotBlank(message = "Project name should not be blank")
     private String projectName;
@@ -37,11 +37,11 @@ public class Project{
     private Date endDate;
 
     @Column(name = "created_at")
-    @JsonFormat(pattern = "yyyy-mm-dd")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", locale = "en_JP")
     private Date createdAt;
 
     @Column(name = "updated_at")
-    @JsonFormat(pattern = "yyyy-mm-dd")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", locale = "en_JP")
     private Date updatedAt;
 
     @PrePersist

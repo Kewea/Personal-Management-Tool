@@ -10,13 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import javax.websocket.server.PathParam;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 @Slf4j
@@ -38,20 +34,18 @@ public class ProjectController {
 
     @PostMapping("")
     public ResponseEntity<?> createNewProject(@Valid @RequestBody Project project, BindingResult bindingResult) {
-        ResponseEntity<?> errorMap = mapValidationErrorService.mapValidationError(bindingResult);
-        if(errorMap != null) {
-            return errorMap;
+        Map<String, String> errorMap = mapValidationErrorService.mapValidationError(bindingResult);
+
+        if(!errorMap.isEmpty()) {
+            return new ResponseEntity<>(errorMap, HttpStatus.BAD_REQUEST);
         }
 
         Project savedProject = projectService.saveOrUpdateProject(project);
-        //Debug logging
-        logger.info(savedProject.toString());
         return new ResponseEntity<>(savedProject, HttpStatus.CREATED);
     }
 
     @GetMapping("/{projectIdentifier}")
     public ResponseEntity<?> getProjectByIdentifier(@PathVariable String projectIdentifier) {
-        logger.info(projectIdentifier);
         Project project = projectService.findProjectByIdentifier(projectIdentifier);
         return new ResponseEntity<>(project, HttpStatus.OK);
     }
