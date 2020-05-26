@@ -49,6 +49,7 @@ public class Project{
         this.createdAt =  new Date();
     }
 
+    //TODO: Bug fix for weird behaviour
     @PostUpdate
     protected void onUpdate(){
         this.updatedAt = new Date();

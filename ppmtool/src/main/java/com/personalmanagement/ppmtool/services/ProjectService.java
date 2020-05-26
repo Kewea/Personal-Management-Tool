@@ -25,25 +25,28 @@ public class ProjectService {
 
     public Project saveOrUpdateProject(Project project) {
 
-            project.setProjectIdentifier(project.getProjectIdentifier().toUpperCase());
+        project.setProjectIdentifier(project.getProjectIdentifier().toUpperCase());
 
+        if(project.getId() != null) {
             //Validation for not updating project identifier
-            if(project.getId() != null) {
-                Optional<Project> optionalProject = projectRepository.findById(project.getId());
+            Optional<Project> optionalProject = projectRepository.findById(project.getId());
 
-                if(optionalProject.isPresent()) {
-                    String optionalProjectIdentifier = optionalProject.get().getProjectIdentifier();
-
-                    if(!optionalProjectIdentifier.equals(project.getProjectIdentifier())) {
-                        throw new ProjectIdException("Project identifier should not be updated");
-                    }
+            if(optionalProject.isPresent()) {
+                if(!optionalProject.get().getProjectIdentifier().equals(project.getProjectIdentifier())) {
+                    throw new ProjectIdException("Project identifier should not be updated");
                 }
             }
+        } else {
+            //Validation of project identifier for creating a new project
+            if (projectRepository.countByProjectIdentifier(project.getProjectIdentifier()) > 0) {
+                throw new ProjectIdException("Project identifier has been used");
+            }
+        }
 
         try {
             return projectRepository.save(project);
         } catch (Exception ex) {
-            throw new ProjectIdException("Project ID: '" + project.getProjectIdentifier().toUpperCase() + "' already exists");
+            throw new ProjectIdException("Project cannot be updated or saved");
         }
     }
 
