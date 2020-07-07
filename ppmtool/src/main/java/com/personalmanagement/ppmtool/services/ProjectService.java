@@ -24,7 +24,6 @@ public class ProjectService {
     }
 
     public Project saveOrUpdateProject(Project project) {
-
         project.setProjectIdentifier(project.getProjectIdentifier().toUpperCase());
 
         if(project.getId() != null) {

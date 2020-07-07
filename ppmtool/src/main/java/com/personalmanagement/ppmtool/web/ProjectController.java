@@ -18,6 +18,7 @@ import java.util.Map;
 @Slf4j
 @RestController
 @RequestMapping("/api/project")
+@CrossOrigin
 public class ProjectController {
     Logger logger = LoggerFactory.getLogger(ProjectController.class);
     private MapValidationErrorService mapValidationErrorService;
